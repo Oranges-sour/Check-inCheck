@@ -19,11 +19,7 @@ export class p_set_active_date {
         ACTIVE_DATE.month = mon;
         ACTIVE_DATE.day = day;
 
-        ws.send(
-            encrypt(
-                JSON.stringify(
-                    []
-                )));
+        ws.send(encrypt(JSON.stringify([])));
         ws.close();
     }
 }

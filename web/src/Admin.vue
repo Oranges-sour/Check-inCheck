@@ -2,7 +2,13 @@
 
 import { computed, ref } from 'vue';
 
-import { web_get_active_date, web_set_active_date } from './net/Net';
+import {
+    web_get_active_date,
+    web_set_active_date,
+    web_get_all_list,
+    web_insert_check_list,
+    web_drop_check_list
+} from './net/Net';
 
 let chartOptions = ref({
     chart: {
@@ -80,8 +86,12 @@ let series = ref([{
     data: [30, 40, 45, 50, 49, 60, 70, 91]
 }]);
 
+let on_list_detail = ref(true);
+let detail_list_data = ref([]);
+let detail_date = ref([2000,1,1]);
 
 let update_date_waiting = ref(true);
+let all_list_waiting = ref(true);
 
 let year = ref(0);
 let mon = ref(0);
@@ -91,7 +101,34 @@ let sel_year = ref(0);
 let sel_mon = ref(0);
 let sel_day = ref(0);
 
+let all_list = ref([]);
+
 update_date();
+
+update_all_list();
+
+function update_all_list() {
+    all_list_waiting.value = true;
+
+    web_get_all_list((result) => {
+        all_list_waiting.value = false;
+
+        all_list.value = result;
+
+        all_list.value.sort((a, b) => {
+
+            if (a[0] > b[0]) {
+                return -1;
+            } else if (a[1] > b[1]) {
+                return -1;
+            } else if (a[2] > b[2]) {
+                return -1;
+            }
+            return 1;
+
+        });
+    });
+}
 
 function update_date() {
     update_date_waiting.value = true;
@@ -106,11 +143,30 @@ function update_date() {
 
 function set_date() {
     update_date_waiting.value = true;
+    all_list_waiting.value = true;
+
     web_set_active_date(sel_year.value, sel_mon.value, sel_day.value, () => {
-
         update_date();
-
     });
+
+    web_insert_check_list(sel_year.value, sel_mon.value, sel_day.value, () => {
+        update_all_list();
+    });
+}
+
+function look_column(column_name) {
+
+}
+
+function erase_column(column_name) {
+    all_list_waiting.value = true;
+    web_drop_check_list(column_name[0],
+        column_name[1],
+        column_name[2], () => {
+
+            update_all_list();
+
+        });
 }
 
 
@@ -152,6 +208,41 @@ function set_date() {
                 <apexchart :width="'100%'" type="area" :options="chartOptions" :series="series"></apexchart>
             </div>
         </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div v-if="!on_list_detail">
+                    <div class="card-title">所有的签到表</div>
+                    <div class="card-subtitle mb-2 text-muted">请通过设置新的签到日期来增加新表</div>
+                    <div v-if="all_list_waiting" class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <ul class="list-group">
+
+                        <li v-for="item in all_list" class="list-group-item">
+                            <div style="float: left;">{{ item[0] }} / {{ item[1] }} / {{ item[2] }}</div>
+                            <div style="float: right;" class="btn-group" role="group">
+                                <button class="btn btn-outline-info btn-sm" @click="look_column(item)">查看</button>
+                                <button class="btn btn-outline-danger btn-sm" @click="erase_column(item)">删除</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div v-if="on_list_detail">
+                    <div class="card-title">
+                        签到表预览
+                        <button style="float: right;"type="button" class="btn-close" aria-label="Close"></button>
+                    </div>
+                    <div class="card-subtitle mb-2 text-muted">
+                        日期 {{ detail_date[0] }} / {{ detail_date[1] }} / {{ detail_date[2] }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
     </div>
 
 
