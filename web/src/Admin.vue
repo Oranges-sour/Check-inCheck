@@ -7,7 +7,9 @@ import {
     web_set_active_date,
     web_get_all_list,
     web_insert_check_list,
-    web_drop_check_list
+    web_drop_check_list,
+    web_get_check_list,
+    web_get_name_list,
 } from './net/Net';
 
 let chartOptions = ref({
@@ -86,9 +88,11 @@ let series = ref([{
     data: [30, 40, 45, 50, 49, 60, 70, 91]
 }]);
 
-let on_list_detail = ref(true);
+let on_list_detail = ref(false);
+let detail_list_name = ref([]);
 let detail_list_data = ref([]);
-let detail_date = ref([2000,1,1]);
+let detail_idx_mid = computed(() => { return Math.ceil((detail_list_name.value.length - 1) / 2); });
+let detail_date = ref([2000, 1, 1]);
 
 let update_date_waiting = ref(true);
 let all_list_waiting = ref(true);
@@ -155,7 +159,20 @@ function set_date() {
 }
 
 function look_column(column_name) {
+    on_list_detail.value = true;
+    detail_date.value = column_name;
 
+    web_get_name_list(321, (result) => {
+
+        detail_list_name.value = result;
+
+    });
+    web_get_check_list(321, column_name[0],
+        column_name[1],
+        column_name[2],
+        (result) => {
+            detail_list_data.value = result;
+        });
 }
 
 function erase_column(column_name) {
@@ -232,12 +249,42 @@ function erase_column(column_name) {
                 <div v-if="on_list_detail">
                     <div class="card-title">
                         签到表预览
-                        <button style="float: right;"type="button" class="btn-close" aria-label="Close"></button>
+                        <button @click="on_list_detail = false;" style="float: right;" type="button" class="btn-close"
+                            aria-label="Close"></button>
                     </div>
                     <div class="card-subtitle mb-2 text-muted">
                         日期 {{ detail_date[0] }} / {{ detail_date[1] }} / {{ detail_date[2] }}
                     </div>
 
+                    <!-- <div v-if="true" class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div> -->
+
+                    <ul style="width: 50%; float: left;" class="list-group">
+                        <li v-for="idx in detail_idx_mid" class="list-group-item">
+                            <div style="float: left; font-size: 1vw;">{{ idx }} {{ detail_list_name[idx - 1] }}</div>
+                            <button v-if="detail_list_data[idx - 1] == 1" style="float: right;"
+                                class="btn btn-success btn-sm">签到</button>
+                            <button v-if="detail_list_data[idx - 1] == 0" style="float: right;"
+                                class="btn btn-danger btn-sm">缺勤</button>
+                            <button v-if="detail_list_data[idx - 1] == 2" style="float: right;"
+                                class="btn btn-warning btn-sm">请假</button>
+                        </li>
+                    </ul>
+                    <ul style="width: 50%; float: right;" class="list-group">
+                        <li v-for="idx in detail_idx_mid" class="list-group-item">
+                            <div style="float: left; font-size: 1vw;">{{ detail_idx_mid + idx }} {{
+                                detail_list_name[detail_idx_mid +
+                                idx -
+                                1] }}</div>
+                            <button v-if="detail_list_data[detail_idx_mid + idx - 1] == 1" style="float: right;"
+                                class="btn btn-success btn-sm">签到</button>
+                            <button v-if="detail_list_data[detail_idx_mid + idx - 1] == 0" style="float: right;"
+                                class="btn btn-danger btn-sm">缺勤</button>
+                            <button v-if="detail_list_data[detail_idx_mid + idx - 1] == 2" style="float: right;"
+                                class="btn btn-warning btn-sm">请假</button>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -250,7 +297,7 @@ function erase_column(column_name) {
 
 <style scoped>
 #container {
-    width: min(90%, 600px);
+    width: min(98%, 600px);
     height: 100%;
     margin: 0 auto;
 }
