@@ -2,7 +2,6 @@
 import CheckName from './components/CheckName.vue'
 import SelectRoom from './components/SelectRoom.vue'
 import { ref } from 'vue'
-import { get_url_param } from './tools/tools.js';
 
 let room = ref(0);
 let is_sel = ref(false);
@@ -11,10 +10,6 @@ let is_load_finish = ref(false);
 let year = ref(0);
 let mon = ref(0);
 let day = ref(0);
-
-year.value = get_url_param("year");
-mon.value = get_url_param("month");
-day.value = get_url_param("day");
 
 
 function sel(num) {
