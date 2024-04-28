@@ -36,3 +36,9 @@ export const ROOM_ID_RANGE = new Map([
     [325, [89, 177]],
     [329, [178, 242]],
 ]);
+
+export var ACTIVE_DATE = {
+    year: Number,
+    month: Number,
+    day: Number,
+};
