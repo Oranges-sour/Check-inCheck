@@ -1,6 +1,8 @@
 <script setup>
 
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+
+import { web_get_active_date, web_set_active_date } from './net/Net';
 
 let chartOptions = ref({
     chart: {
@@ -78,6 +80,40 @@ let series = ref([{
     data: [30, 40, 45, 50, 49, 60, 70, 91]
 }]);
 
+
+let update_date_waiting = ref(true);
+
+let year = ref(0);
+let mon = ref(0);
+let day = ref(0);
+
+let sel_year = ref(0);
+let sel_mon = ref(0);
+let sel_day = ref(0);
+
+update_date();
+
+function update_date() {
+    update_date_waiting.value = true;
+
+    web_get_active_date((result) => {
+        update_date_waiting.value = false;
+        year.value = result[0];
+        mon.value = result[1];
+        day.value = result[2];
+    });
+}
+
+function set_date() {
+    update_date_waiting.value = true;
+    web_set_active_date(sel_year.value, sel_mon.value, sel_day.value, () => {
+
+        update_date();
+
+    });
+}
+
+
 </script>
 
 <template>
@@ -85,29 +121,35 @@ let series = ref([{
         <div id="title">管理员</div>
         <div class="card">
             <div class="card-body">
-                <div class="card-title">设置可更改的签到日期</div>
-                <select class="form-select sel_date" aria-label="year">
+                <div class="card-title">设置今日签到日期</div>
+                <select v-model="sel_year" class="form-select sel_date" aria-label="year">
                     <option selected>年</option>
-                    <option value="2024">2024年</option>
+                    <option :value="2024">2024年</option>
                 </select>
-                <select class="form-select sel_date" aria-label="month">
+                <select v-model="sel_mon" class="form-select sel_date" aria-label="month">
                     <option selected>月</option>
                     <option v-for="idx in (1, 12)" :value="idx">{{ idx }}月</option>
                 </select>
-                <select class="form-select sel_date" aria-label="day">
+                <select v-model="sel_day" class="form-select sel_date" style="float: left;" aria-label="day">
                     <option selected>日</option>
                     <option v-for="idx in (1, 31)" :value="idx">{{ idx }}日</option>
                 </select>
+                <button id="sel_date_btn" class="btn btn-info" @click="set_date()">设置</button>
             </div>
+
             <div class="card-footer text-muted">
-                当前日期：未设置
+                <div style="float: left;">当前今日签到日期：{{ year }} / {{ mon }} / {{ day }}</div>
+                <div v-if="update_date_waiting" style="float: right;" class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
             </div>
+
         </div>
 
         <div class="card">
             <div class="card-body">
                 <div class="card-title">数据统计</div>
-                <apexchart width="400" type="area" :options="chartOptions" :series="series"></apexchart>
+                <apexchart :width="'100%'" type="area" :options="chartOptions" :series="series"></apexchart>
             </div>
         </div>
     </div>
@@ -140,6 +182,13 @@ let series = ref([{
 .sel_date {
     width: 40%;
     margin-bottom: 1%;
+
+}
+
+#sel_date_btn {
+    width: 30%;
+    margin-bottom: 1%;
+    float: right;
 }
 </style>
 

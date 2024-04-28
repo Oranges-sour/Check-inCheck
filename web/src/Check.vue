@@ -2,6 +2,7 @@
 import CheckName from './components/CheckName.vue'
 import SelectRoom from './components/SelectRoom.vue'
 import { ref } from 'vue'
+import { web_get_active_date } from './net/Net';
 
 let room = ref(0);
 let is_sel = ref(false);
@@ -10,6 +11,13 @@ let is_load_finish = ref(false);
 let year = ref(0);
 let mon = ref(0);
 let day = ref(0);
+
+web_get_active_date((result) => {
+  year.value = result[0];
+  mon.value = result[1];
+  day.value = result[2];
+
+});
 
 
 function sel(num) {
@@ -41,7 +49,8 @@ function reset_sel() {
 
 
     <div id="card">
-      <CheckName v-if="is_sel" :room="room" @load_finish="is_load_finish = true" @close="reset_sel()">
+      <CheckName v-if="is_sel" :room="room" :year="year" :month="mon" :day="day" @load_finish="is_load_finish = true"
+        @close="reset_sel()">
       </CheckName>
     </div>
 

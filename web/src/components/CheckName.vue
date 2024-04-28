@@ -1,6 +1,9 @@
 <script setup>
 let props = defineProps({
     room: Number,
+    year: Number,
+    month: Number,
+    day: Number,
     required: true
 });
 let emits = defineEmits([
@@ -20,10 +23,6 @@ let load_finish = ref(false);
 
 let load_count = ref(0);
 const max_load_count = ref(2);
-
-let year = ref(0);
-let mon = ref(0);
-let day = ref(0);
 
 let class_list_group_item = ref("list-group-item");
 
@@ -57,7 +56,7 @@ web_get_name_list(props.room, (data) => {
     check_load_finish();
 });
 
-web_get_check_list(props.room, year.value, mon.value, day.value, (data) => {
+web_get_check_list(props.room, props.year, props.month, props.day, (data) => {
     for (let i = 0; i < data.length; ++i) {
         name_mark.value[i] = data[i];
     }
@@ -90,7 +89,7 @@ function update_leave() {
 }
 
 function update_check_list() {
-    web_update_check_list(props.room, year.value, mon.value, day.value, name_mark.value, () => { });
+    web_update_check_list(props.room, props.year, props.month, props.day, name_mark.value, () => { });
 
     emits("close");
 }

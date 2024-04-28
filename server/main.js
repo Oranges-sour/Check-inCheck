@@ -11,11 +11,15 @@ import { decrypt, encrypt } from "./security.js";
 import { p_get_name_list } from "./p_get_name_list.js";
 import { p_get_check_list } from "./p_get_check_list.js";
 import { p_update_check_list } from "./p_update_check_list.js";
+import { p_get_active_date } from "./p_get_active_date.js";
+import { p_set_active_date } from "./p_set_active_date.js"
 
 let command =
     [new p_get_name_list(),
     new p_get_check_list(),
-    new p_update_check_list()];
+    new p_update_check_list(),
+    new p_get_active_date(),
+    new p_set_active_date()];
 
 wss.on("connection", function (ws) {
     ws.on("message", function (e) {

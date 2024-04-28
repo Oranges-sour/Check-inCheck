@@ -38,7 +38,7 @@ export const ROOM_ID_RANGE = new Map([
 ]);
 
 export var ACTIVE_DATE = {
-    year: Number,
-    month: Number,
-    day: Number,
+    year: 2000,
+    month: 1,
+    day: 1,
 };

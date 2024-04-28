@@ -11,7 +11,6 @@ export class p_get_active_date {
     }
 
     process(ws, params) {
-
         ws.send(
             encrypt(
                 JSON.stringify(

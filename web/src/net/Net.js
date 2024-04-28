@@ -1,5 +1,13 @@
 import { encrypt, decrypt } from "@/tools/tools.js";
 
+export function web_get_active_date(call_back) {
+    web_send_get("get_active_date", [], call_back);
+}
+
+export function web_set_active_date(year, month, day, call_back) {
+    web_send_get("set_active_date", [year, month, day], call_back);
+}
+
 export function web_get_name_list(room_number, call_back) {
     web_send_get("get_name_list", [room_number], call_back);
 }
