@@ -162,12 +162,12 @@ function look_column(column_name) {
     on_list_detail.value = true;
     detail_date.value = column_name;
 
-    web_get_name_list(321, (result) => {
+    web_get_name_list(-1, (result) => {
 
         detail_list_name.value = result;
 
     });
-    web_get_check_list(321, column_name[0],
+    web_get_check_list(-1, column_name[0],
         column_name[1],
         column_name[2],
         (result) => {

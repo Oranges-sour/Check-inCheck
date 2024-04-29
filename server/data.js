@@ -32,10 +32,13 @@ export const NAME_LIST =
         "胡资佳", "陈奕君"];
 
 export const ROOM_ID_RANGE = new Map([
+    [-1, [1, 242]],//所有的人
     [321, [1, 88]],
     [325, [89, 177]],
     [329, [178, 242]],
 ]);
+
+export const ADMIN_PASSWORD = "adminp";
 
 export var ACTIVE_DATE = {
     year: 2000,
