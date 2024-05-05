@@ -240,7 +240,7 @@ function erase_column(column_name) {
                             <div style="float: left;">{{ item[0] }} / {{ item[1] }} / {{ item[2] }}</div>
                             <div style="float: right;" class="btn-group" role="group">
                                 <button class="btn btn-outline-info btn-sm" @click="look_column(item)">查看</button>
-                                <button class="btn btn-outline-danger btn-sm" @click="erase_column(item)">删除</button>
+                                <button class="btn btn-outline-danger btn-sm" @dblclick="erase_column(item)">双击删除</button>
                             </div>
                         </li>
                     </ul>
