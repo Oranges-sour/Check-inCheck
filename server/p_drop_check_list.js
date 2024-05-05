@@ -23,13 +23,13 @@ export class p_drop_check_list {
             if (result.includes(`check_${year}_${s_mon}_${s_day}`)) {
 
                 sql_drop_date(year, mon, day, () => {
-                    ws.send(encrypt(JSON.stringify([])));
+                    ws.send(encrypt(JSON.stringify(["ok", ""])));
                     ws.close();
                 });
 
                 return;
             }
-            ws.send(encrypt(JSON.stringify([])));
+            ws.send(encrypt(JSON.stringify(["error","<drop_check_list>:Column not found!"])));
             ws.close();
         });
 
