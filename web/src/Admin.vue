@@ -139,8 +139,6 @@ function update_all_list() {
         for (let item of all_list.value) {
             on_erase.value.set(item[0] * 10000 + item[1] * 100 + item[2], false);
         }
-
-        console.log(on_erase.value);
     });
 }
 
