@@ -16,16 +16,16 @@ con.connect((err) => {
 });
 
 
-function sql_drop_database() {
+function sql_drop_database(call_back) {
     const sql = `DROP DATABASE IF EXISTS ${DATABASE_NAME};`;
 
     con.query(sql, function (err, result) {
         if (err) throw err;
-        console.log(result);
+        call_back();
     });
 }
 
-function sql_create_table() {
+function sql_create_table(call_back) {
     const sql = `CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
                  id INT PRIMARY KEY,
                  name VARCHAR(30) NOT NULL
@@ -34,20 +34,21 @@ function sql_create_table() {
                  ;`;
     con.query(sql, function (err, result) {
         if (err) throw err;
-        console.log(result);
+        call_back();
     });
 }
 
-function sql_use_database() {
+function sql_use_database(call_back) {
     const sql = `USE ${DATABASE_NAME}
                  ;`;
 
     con.query(sql, function (err, result) {
         if (err) throw err;
+        call_back();
     });
 }
 
-function sql_create_database() {
+function sql_create_database(call_back) {
     const sql = `CREATE DATABASE IF NOT EXISTS ${DATABASE_NAME}
                  CHARACTER SET utf8mb4
                  COLLATE utf8mb4_general_ci
@@ -55,14 +56,14 @@ function sql_create_database() {
 
     con.query(sql, function (err, result) {
         if (err) throw err;
-        console.log(result);
+        call_back();
     });
 }
 
 
 
 
-function sql_insert_namelist(name_list) {
+function sql_insert_namelist(name_list, call_back) {
     for (let [idx, it] of name_list.entries()) {
 
 
@@ -70,13 +71,14 @@ function sql_insert_namelist(name_list) {
 
         con.query(sql, function (err, result) {
             if (err) throw err;
+            call_back();
         });
     }
 }
 
 //添加新的检查日期
 //eg: 2003 01 07
-export function sql_insert_date(year, mon, day) {
+export function sql_insert_date(year, mon, day, call_back) {
     let s_mon = mon < 10 ? `0${mon}` : `${mon}`;
     let s_day = day < 10 ? `0${day}` : `${day}`;
 
@@ -86,10 +88,11 @@ export function sql_insert_date(year, mon, day) {
 
     con.query(sql, function (err, result) {
         if (err) throw err;
+        call_back();
     });
 }
 
-export function sql_drop_date(year, mon, day) {
+export function sql_drop_date(year, mon, day, call_back) {
     let s_mon = mon < 10 ? `0${mon}` : `${mon}`;
     let s_day = day < 10 ? `0${day}` : `${day}`;
 
@@ -99,6 +102,7 @@ export function sql_drop_date(year, mon, day) {
 
     con.query(sql, function (err, result) {
         if (err) throw err;
+        call_back();
     });
 }
 
@@ -155,11 +159,33 @@ export function sql_update_check_list(id_begin, id_end, year, mon, day, new_list
         con.query(sql, function (err, result) {
             if (err) throw err;
 
-            console.log(result);
+            call_back();
         });
 
     }
 }
+
+export function sql_get_all_list(call_back) {
+    const sql = `DESCRIBE ${TABLE_NAME} 
+                 ;`;
+
+    con.query(sql, function (err, result) {
+        if (err) throw err;
+
+        let li = [];
+        for (let k of result) {
+            let f = k["Field"];
+            if (f.startsWith("check_")) {
+                li.push(f);
+            }
+        }
+
+        call_back(li);
+
+    });
+}
+
+
 
 //初始化使用
 
@@ -171,7 +197,7 @@ export function sql_update_check_list(id_begin, id_end, year, mon, day, new_list
 ////////////////////////////////////
 
 
-sql_use_database();
+sql_use_database(() => { });
 
 // sql_insert_date(2004, 1, 3);
 
