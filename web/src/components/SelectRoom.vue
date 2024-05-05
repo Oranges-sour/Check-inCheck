@@ -16,7 +16,7 @@ function sel(num) {
 
     <div id="c" >
         <div class="btn-group" style="width: 100%;">
-            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                 选择教室
             </button>
             <ul class="dropdown-menu" style="width: 100%;">

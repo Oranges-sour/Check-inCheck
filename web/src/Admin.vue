@@ -262,7 +262,8 @@ function erase_column(column_name) {
 
                     <ul style="width: 50%; float: left;" class="list-group">
                         <li v-for="idx in detail_idx_mid" class="list-group-item">
-                            <div style="float: left; font-size: 1vw;">{{ idx }} {{ detail_list_name[idx - 1] }}</div>
+                            <div style="float: left;"  class="text-sm-start">{{ idx }} {{ detail_list_name[idx - 1] }}
+                            </div>
                             <button v-if="detail_list_data[idx - 1] == 1" style="float: right;"
                                 class="btn btn-success btn-sm">签到</button>
                             <button v-if="detail_list_data[idx - 1] == 0" style="float: right;"
@@ -273,7 +274,7 @@ function erase_column(column_name) {
                     </ul>
                     <ul style="width: 50%; float: right;" class="list-group">
                         <li v-for="idx in detail_idx_mid" class="list-group-item">
-                            <div style="float: left; font-size: 1vw;">{{ detail_idx_mid + idx }} {{
+                            <div style="float: left;" class="text-sm-start">{{ detail_idx_mid + idx }} {{
                                 detail_list_name[detail_idx_mid +
                                 idx -
                                 1] }}</div>
