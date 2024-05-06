@@ -107,6 +107,8 @@ let sel_day = ref(0);
 
 let all_list = ref([]);
 
+let on_erase = ref(new Map());
+
 update_date();
 
 update_all_list();
@@ -131,6 +133,12 @@ function update_all_list() {
             return 1;
 
         });
+
+        on_erase.value.clear();
+
+        for (let item of all_list.value) {
+            on_erase.value.set(item[0] * 10000 + item[1] * 100 + item[2], false);
+        }
     });
 }
 
@@ -238,9 +246,15 @@ function erase_column(column_name) {
 
                         <li v-for="item in all_list" class="list-group-item">
                             <div style="float: left;">{{ item[0] }} / {{ item[1] }} / {{ item[2] }}</div>
-                            <div style="float: right;" class="btn-group" role="group">
+                            
+                            <div v-if="on_erase.get(item[0] * 10000 + item[1] * 100 + item[2]) == false" style="float: right;" class="btn-group" role="group">
                                 <button class="btn btn-outline-info btn-sm" @click="look_column(item)">查看</button>
-                                <button class="btn btn-outline-danger btn-sm" @click="erase_column(item)">删除</button>
+                                <button class="btn btn-outline-danger btn-sm" @click="on_erase.set(item[0] * 10000 + item[1] * 100 + item[2], true);">删除</button>
+                            </div>
+
+                            <div v-if="on_erase.get(item[0] * 10000 + item[1] * 100 + item[2]) == true" style="float: right;" class="btn-group" role="group">
+                                <button class="btn btn-outline-danger btn-sm" @click="erase_column(item)">确定删除</button>
+                                <button class="btn btn-outline-info btn-sm" @click="on_erase.set(item[0] * 10000 + item[1] * 100 + item[2], false);">取消</button>
                             </div>
                         </li>
                     </ul>

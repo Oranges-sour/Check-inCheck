@@ -38,7 +38,13 @@ export const ROOM_ID_RANGE = new Map([
     [329, [178, 242]],
 ]);
 
+export const DATABASE_NAME = "WanZiXi";
+export const TABLE_NAME = "table1";
+
 export const ADMIN_PASSWORD = "adminp";
+
+export const PASSWORD = "04DA069DCC237B88484865E3E7331B35";
+
 
 export var ACTIVE_DATE = {
     year: 2000,

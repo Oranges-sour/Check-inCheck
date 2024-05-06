@@ -6,6 +6,7 @@
     "ws": "^8.16.0"
   },
   "scripts": {
-    "dev": "node main.js"
+    "dev": "node main.js",
+    "setup": "node setup.js"
   }
 }

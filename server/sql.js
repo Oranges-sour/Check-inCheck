@@ -1,9 +1,7 @@
 import { createConnection } from "mysql";
 
-import { NAME_LIST } from "./data.js";
+import { DATABASE_NAME, TABLE_NAME } from "./data.js";
 
-const DATABASE_NAME = "WanZiXi";
-const TABLE_NAME = "table1";
 
 let con = createConnection({
     host: "localhost",
@@ -185,23 +183,9 @@ export function sql_get_all_list(call_back) {
     });
 }
 
-
-
-//初始化使用
-
-// sql_create_database();
-// sql_drop_database();
-// sql_create_table();
-// sql_insert_namelist(NAME_LIST);
-
 ////////////////////////////////////
 
 
-sql_use_database(() => { });
-
-// sql_insert_date(2004, 1, 3);
-
-//sql_drop_date(2004, 1, 3);
 
 
 
