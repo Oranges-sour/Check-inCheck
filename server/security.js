@@ -1,6 +1,6 @@
 import { Base64 } from "js-base64";
 
-import { PASSWORD } from "./data";
+import { PASSWORD } from "./data.js";
 
 
 export function encrypt(input) {

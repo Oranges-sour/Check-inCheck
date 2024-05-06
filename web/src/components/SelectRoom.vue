@@ -21,7 +21,8 @@ function sel(num) {
             </button>
             <ul class="dropdown-menu" style="width: 100%;">
                 <li><button class="dropdown-item" @click="sel(329)">329</button></li>
-                <li><button class="dropdown-item" @click="sel(325)">325</button></li>
+                <li><button class="dropdown-item" @click="sel(32501)">325_01 (数学类)</button></li>
+                <li><button class="dropdown-item" @click="sel(32502)">325_02 (中外)</button></li>
                 <li><button class="dropdown-item" @click="sel(321)">321</button></li>
             </ul>
         </div>

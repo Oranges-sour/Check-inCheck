@@ -14,7 +14,7 @@ con.connect((err) => {
 });
 
 
-function sql_drop_database(call_back) {
+export function sql_drop_database(call_back) {
     const sql = `DROP DATABASE IF EXISTS ${DATABASE_NAME};`;
 
     con.query(sql, function (err, result) {
@@ -23,7 +23,7 @@ function sql_drop_database(call_back) {
     });
 }
 
-function sql_create_table(call_back) {
+export function sql_create_table(call_back) {
     const sql = `CREATE TABLE IF NOT EXISTS ${TABLE_NAME} (
                  id INT PRIMARY KEY,
                  name VARCHAR(30) NOT NULL
@@ -36,7 +36,7 @@ function sql_create_table(call_back) {
     });
 }
 
-function sql_use_database(call_back) {
+export function sql_use_database(call_back) {
     const sql = `USE ${DATABASE_NAME}
                  ;`;
 
@@ -46,7 +46,7 @@ function sql_use_database(call_back) {
     });
 }
 
-function sql_create_database(call_back) {
+export function sql_create_database(call_back) {
     const sql = `CREATE DATABASE IF NOT EXISTS ${DATABASE_NAME}
                  CHARACTER SET utf8mb4
                  COLLATE utf8mb4_general_ci
@@ -61,7 +61,7 @@ function sql_create_database(call_back) {
 
 
 
-function sql_insert_namelist(name_list, call_back) {
+export function sql_insert_namelist(name_list, call_back) {
     for (let [idx, it] of name_list.entries()) {
 
 
