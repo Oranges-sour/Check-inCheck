@@ -42,6 +42,7 @@ function reset_sel() {
     <div id="title">晚自习点名器</div>
 
     <div id="date">日期：{{ year }}/{{ mon }}/{{ day }}</div>
+    <div id="d1">如日期出现错误，请联系管理员更改</div>
 
     <div id="sel_room">
       <SelectRoom v-if="!is_sel" @sel="(num) => { sel(num); }" />
@@ -93,6 +94,12 @@ function reset_sel() {
 #date {
   text-align: center;
   font-size: 2vw;
+  margin-bottom: 1%;
+}
+
+#d1 {
+  text-align: center;
+  font-size: 1.5vw;
   margin-bottom: 4%;
 }
 
