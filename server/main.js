@@ -1,10 +1,6 @@
 import { WebSocketServer } from "ws";
 
-
-
-let wss = new WebSocketServer({ port: 23456 });
-
-import { } from "./sql.js"
+import { sql_use_database } from "./sql.js";
 
 import { decrypt, encrypt } from "./security.js";
 
@@ -17,6 +13,12 @@ import { p_get_all_list } from "./p_get_all_list.js";
 import { p_insert_check_list } from "./p_insert_check_list.js";
 import { p_drop_check_list } from "./p_drop_check_list.js";
 import { p_check_admin_password } from "./p_check_admin_password.js"
+
+
+
+let wss = new WebSocketServer({ port: 23456 });
+
+sql_use_database(() => { });
 
 let command =
     [new p_get_name_list(),
