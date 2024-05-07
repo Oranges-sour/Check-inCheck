@@ -20,6 +20,7 @@ const name_list = ref([]);
 const name_mark = ref([]);
 
 let load_finish = ref(false);
+let load_err = ref(0);
 
 let load_count = ref(0);
 const max_load_count = ref(2);
@@ -57,6 +58,10 @@ web_get_name_list(props.room, (data) => {
 });
 
 web_get_check_list(props.room, props.year, props.month, props.day, (data) => {
+    if (data.length == 0) {
+        load_err.value = 1;
+    }
+
     for (let i = 0; i < data.length; ++i) {
         name_mark.value[i] = data[i];
     }
@@ -130,7 +135,17 @@ function is_checked(idx, tar) {
     <div style="text-align: center; font-size: calc(2vw + 12px);">
         教室 {{ props.room }}
     </div>
-    <div class="card" style="width: 100%; height:60%; padding-top: 10%; padding-left: 5%; padding-right: 5%;">
+    <div v-if="load_err != 0" class="card" style="width: 100%; height:60%;  padding-left: 5%; padding-right: 5%;">
+
+        <div class="card-body">
+            <div class="card-title">
+                错误 错误码:{{ load_err }}
+            </div>
+            <div v-if="load_err == 1">没有读取到签到表，签到日期是否错误？</div>
+        </div>
+    </div>
+    <div v-if="load_err == 0" class="card"
+        style="width: 100%; height:60%; padding-top: 10%; padding-left: 5%; padding-right: 5%;">
         <!-- 加载转圈 -->
         <div id="loading" class="spinner-border" role="status" v-if="!load_finish">
             <span class="visually-hidden">Loading...</span>
