@@ -11,6 +11,12 @@ let con = createConnection({
 
 con.connect((err) => {
     if (err) throw err;
+
+    //防止数据库掉线
+    setInterval(function () {
+        con.query('SELECT 1');
+    }, 10000);
+
 });
 
 
