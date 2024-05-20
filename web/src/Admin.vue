@@ -74,7 +74,7 @@ let chartOptions = ref({
             show: false,
         },
 
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+        categories: ["123", 1992, 1993, 1994, 1995, 1996, 1997, 1998]
     },
     yaxis: {
         labels: {
@@ -86,6 +86,9 @@ let chartOptions = ref({
 let series = ref([{
     name: 'series-1',
     data: [30, 40, 45, 50, 49, 60, 70, 91]
+}, {
+    name: 'series-2',
+    data: [4, 80, 45, 50, 70, 60, 70, 91]
 }]);
 
 let on_list_detail = ref(false);
@@ -246,15 +249,19 @@ function erase_column(column_name) {
 
                         <li v-for="item in all_list" class="list-group-item">
                             <div style="float: left;">{{ item[0] }} / {{ item[1] }} / {{ item[2] }}</div>
-                            
-                            <div v-if="on_erase.get(item[0] * 10000 + item[1] * 100 + item[2]) == false" style="float: right;" class="btn-group" role="group">
+
+                            <div v-if="on_erase.get(item[0] * 10000 + item[1] * 100 + item[2]) == false"
+                                style="float: right;" class="btn-group" role="group">
                                 <button class="btn btn-outline-info btn-sm" @click="look_column(item)">查看</button>
-                                <button class="btn btn-outline-danger btn-sm" @click="on_erase.set(item[0] * 10000 + item[1] * 100 + item[2], true);">删除</button>
+                                <button class="btn btn-outline-danger btn-sm"
+                                    @click="on_erase.set(item[0] * 10000 + item[1] * 100 + item[2], true);">删除</button>
                             </div>
 
-                            <div v-if="on_erase.get(item[0] * 10000 + item[1] * 100 + item[2]) == true" style="float: right;" class="btn-group" role="group">
+                            <div v-if="on_erase.get(item[0] * 10000 + item[1] * 100 + item[2]) == true"
+                                style="float: right;" class="btn-group" role="group">
                                 <button class="btn btn-outline-danger btn-sm" @click="erase_column(item)">确定删除</button>
-                                <button class="btn btn-outline-info btn-sm" @click="on_erase.set(item[0] * 10000 + item[1] * 100 + item[2], false);">取消</button>
+                                <button class="btn btn-outline-info btn-sm"
+                                    @click="on_erase.set(item[0] * 10000 + item[1] * 100 + item[2], false);">取消</button>
                             </div>
                         </li>
                     </ul>
@@ -276,7 +283,7 @@ function erase_column(column_name) {
 
                     <ul style="width: 50%; float: left;" class="list-group">
                         <li v-for="idx in detail_idx_mid" class="list-group-item">
-                            <div style="float: left;"  class="text-sm-start">{{ idx }} {{ detail_list_name[idx - 1] }}
+                            <div style="float: left;" class="text-sm-start">{{ idx }} {{ detail_list_name[idx - 1] }}
                             </div>
                             <button v-if="detail_list_data[idx - 1] == 1" style="float: right;"
                                 class="btn btn-success btn-sm">签到</button>
