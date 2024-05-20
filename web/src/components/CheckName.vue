@@ -18,6 +18,7 @@ import { web_get_name_list, web_get_check_list, web_update_check_list } from '@/
 const idx = ref(0);
 const name_list = ref([]);
 const name_mark = ref([]);
+const name_id_start = ref(0);
 
 let load_finish = ref(false);
 let load_err = ref(0);
@@ -50,7 +51,8 @@ let toggle_view_all_text = computed(() => {
 let end = ref(false);
 
 web_get_name_list(props.room, (data) => {
-    name_list.value = data;
+    name_id_start.value = data[0];
+    name_list.value = data[1];
     name_list.value.push("结束");
     load_count.value += 1;
 
@@ -171,7 +173,7 @@ function is_checked(idx, tar) {
             <ul class="list-group" id="listg" style="float: left;">
 
                 <li v-for="(item, idx) in half_name_list_first " :class="class_list_group_item">
-                    {{ idx + 1 }}. {{ item }}
+                    {{ name_id_start + idx }}. {{ item }}
                     <span style="float: right;">
                         <span class="form-check-inline">
                             <input class="form-check-input" type="radio" :name="idx" :id="String(idx) + 'a'"
@@ -203,7 +205,7 @@ function is_checked(idx, tar) {
             <ul class=" list-group" id="listg" style="float: left; margin-left: 2%;">
 
                 <li v-for="(item, idx) in half_name_list_second" :class="class_list_group_item">
-                    {{ idx + 1 + half_name_list_idx }}. {{ item }}
+                    {{ name_id_start + idx + half_name_list_idx }}. {{ item }}
                     <span style="float: right;">
                         <span class="form-check-inline">
                             <input class="form-check-input" type="radio" :name="idx + half_name_list_idx"

@@ -172,7 +172,7 @@ function look_column(column_name) {
 
     web_get_name_list(-1, (result) => {
 
-        detail_list_name.value = result;
+        detail_list_name.value = result[1];
 
     });
     web_get_check_list(-1, column_name[0],

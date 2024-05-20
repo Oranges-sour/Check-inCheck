@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "node main.js",
+    "build": "ncc build main.js -m -o dist",
     "setup": "node setup.js"
   }
 }
