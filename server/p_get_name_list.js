@@ -20,7 +20,7 @@ export class p_get_name_list {
         }
         sql_quer_name(range[0], range[1], (result) => {
 
-            ws.send(encrypt(JSON.stringify(result)));
+            ws.send(encrypt(JSON.stringify([range[0], result])));
             ws.close();
         });
 
