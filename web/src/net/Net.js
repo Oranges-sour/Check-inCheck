@@ -1,5 +1,9 @@
 import { encrypt, decrypt } from "@/tools/tools.js";
 
+export function web_get_check_statistics(call_back) {
+    web_send_get("get_check_statistics", [], call_back);
+}
+
 export function web_check_admin_password(password, call_back) {
     web_send_get("check_admin_password", [password], call_back);
 }

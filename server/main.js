@@ -13,7 +13,7 @@ import { p_get_all_list } from "./p_get_all_list.js";
 import { p_insert_check_list } from "./p_insert_check_list.js";
 import { p_drop_check_list } from "./p_drop_check_list.js";
 import { p_check_admin_password } from "./p_check_admin_password.js"
-
+import { p_get_check_statistics } from "./p_get_check_statistics.js";
 
 
 let wss = new WebSocketServer({ port: 23456 });
@@ -29,7 +29,8 @@ let command =
     new p_get_all_list(),
     new p_insert_check_list(),
     new p_drop_check_list(),
-    new p_check_admin_password()];
+    new p_check_admin_password(),
+    new p_get_check_statistics()];
 
 wss.on("connection", function (ws) {
     ws.on("message", function (e) {
