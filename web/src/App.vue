@@ -20,7 +20,7 @@ function to_admin() {
 <template>
     <div id="container">
 
-        <h1 v-if="page_on == 0"  style="text-align: center;">主页</h1>
+        <h1 v-if="page_on == 0" style="text-align: center;">主页</h1>
 
         <div class="card text-center" v-if="page_on == 0">
             <div class="card-body">

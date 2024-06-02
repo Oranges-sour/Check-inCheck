@@ -10,6 +10,7 @@ import {
     web_drop_check_list,
     web_get_check_list,
     web_get_name_list,
+    web_get_check_statistics
 } from './net/Net';
 
 let chartOptions = ref({
@@ -74,7 +75,7 @@ let chartOptions = ref({
             show: false,
         },
 
-        categories: ["123", 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+        categories: [123]
     },
     yaxis: {
         labels: {
@@ -84,11 +85,11 @@ let chartOptions = ref({
 });
 
 let series = ref([{
-    name: 'series-1',
-    data: [30, 40, 45, 50, 49, 60, 70, 91]
+    name: '缺勤率',
+    data: []
 }, {
-    name: 'series-2',
-    data: [4, 80, 45, 50, 70, 60, 70, 91]
+    name: '请假率',
+    data: []
 }]);
 
 let on_list_detail = ref(false);
@@ -143,6 +144,21 @@ function update_all_list() {
             on_erase.value.set(item[0] * 10000 + item[1] * 100 + item[2], false);
         }
     });
+
+    web_get_check_statistics((result) => {
+        let li = [];
+        for(let k of result[0]) {
+            li.push(String(k[0] * 10000 + k[1] * 100 + k[2]));
+        }
+        for(let i = 0;i < li.length;++i) {
+            chartOptions.value.xaxis.categories[i] = li[i];
+        } 
+
+        series.value[0].data = result[1];
+        series.value[1].data = result[2];
+        
+
+     });
 }
 
 function update_date() {
